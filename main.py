@@ -1,5 +1,5 @@
 import discord
-import os
+import os, random as rand
 import asyncio
 
 intents = discord.Intents.default()
@@ -19,14 +19,21 @@ async def on_ready():
 
 
 @client.event
+@client.event
 async def on_message(message):
-    pathToFile = discord.File(r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing\animelovesauce_After_a_long_journey_my_feet_smells_a_lot__Huh__You_wanna_take_a_sniff__Really__Well,_if_you_like_stinky_feet_you_can,_but_do_it_well__(Elaina)_[Majo_no_Tabitabi]_koeio8.jpg", filename="image.jpg")
-
 
     print("Contents: {}, From:{}".format(message.content, message.author))
     if message.author.name == "George Orwell" and message.author.discriminator == "3046":
         msgChannel = message.channel
-        await msgChannel.send("nice", file=pathToFile)
+        print(msgChannel)
+        if msgChannel.id != 1055616703880503328:
+            await msgChannel.send("Nope")
+        else:
+            folder_path = r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing"
+            file_name = rand.choice(os.listdir(folder_path))
+            random_image_path = folder_path + r"\{}".format(file_name)
+            pic = discord.File(random_image_path)
+            await msgChannel.send("nice", file=pic)
 
         #TODO: send image
 
