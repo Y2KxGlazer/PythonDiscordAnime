@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os, random as rand
+from colorthief import ColorThief
 import asyncio
 
 
@@ -30,12 +31,21 @@ async def on_message(message):
             await msg_channel.send("Nope")
 
         else:
+
             folder_path = r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing"
             file_name = rand.choice(os.listdir(folder_path))
             random_image_path = folder_path + r"\{}".format(file_name)
-            pic = discord.File(random_image_path)
+            pic = discord.File(random_image_path, filename=file_name)
 
-            await msg_channel.send("nice", file=pic)
+            color_thief_image = ColorThief(random_image_path)
+            image_color = color_thief_image.get_color(quality=1)
+            color_from_image = discord.Color.from_rgb(image_color[0], image_color[1], image_color[2])
+
+            user_embed = discord.Embed(color=color_from_image, title="test",
+                                       type='rich')
+            user_embed.set_image(url=f"attachment://{random_image_path}")
+            await msg_channel.send(embed=user_embed, file=pic)
+
 
         #TODO: set up bot prefix..... skipping
 
