@@ -1,34 +1,53 @@
 import discord
-import os
+from discord.ext import commands
+import os, random as rand
+from colorthief import ColorThief
 import asyncio
 
-intents = discord.Intents.default()
+
+intents=discord.Intents.default()
 intents.message_content = True
-client = discord.Client(intents=intents)
+
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 with open("token.txt") as f:
     TOKEN = f.readline().strip()
 
-@client.event
+
+@bot.event
 async def on_ready():
-    print('Logged in as {0.user}'.format(client))
-    channel = client.get_channel(1055616703880503328) # This is the channel that the bot 'awakens' in
-    await channel.send('Hello, world!')
+    awaken_channel = 1055616703880503328  # This is the channel that the bot 'awakens' in
+    print('Logged in as {0.user}'.format(bot))
+    channel = bot.get_channel(awaken_channel)
+    await channel.send(f'Hello, world!')
 
 
 
-
-@client.event
+@bot.event
 async def on_message(message):
-    pathToFile = discord.File(r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing\animelovesauce_After_a_long_journey_my_feet_smells_a_lot__Huh__You_wanna_take_a_sniff__Really__Well,_if_you_like_stinky_feet_you_can,_but_do_it_well__(Elaina)_[Majo_no_Tabitabi]_koeio8.jpg", filename="image.jpg")
-
-
-    print("Contents: {}, From:{}".format(message.content, message.author))
     if message.author.name == "George Orwell" and message.author.discriminator == "3046":
-        msgChannel = message.channel
-        await msgChannel.send("nice", file=pathToFile)
+        msg_channel = message.channel
+        if msg_channel.id != 1055616703880503328:
+            await msg_channel.send("Nope")
 
-        #TODO: send image
+        else:
+
+            folder_path = r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing"
+            file_name = rand.choice(os.listdir(folder_path))
+            random_image_path = folder_path + r"\{}".format(file_name)
+            pic = discord.File(random_image_path, filename=file_name)
+
+            color_thief_image = ColorThief(random_image_path)
+            image_color = color_thief_image.get_color(quality=1)
+            color_from_image = discord.Color.from_rgb(image_color[0], image_color[1], image_color[2])
+
+            user_embed = discord.Embed(color=color_from_image, title="test",
+                                       type='rich')
+            user_embed.set_image(url=f"attachment://{random_image_path}")
+            await msg_channel.send(embed=user_embed, file=pic)
+
+
+        #TODO: set up bot prefix..... skipping
 
         #TODO: embed image
 
@@ -38,8 +57,4 @@ async def on_message(message):
 
 
 
-
-
-
-
-client.run(TOKEN)
+bot.run(TOKEN)
