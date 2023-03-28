@@ -19,9 +19,10 @@ async def send_rand_local_message(channel):
     """This function gets the channel name and sends a random picture
     from the folder to a discord channel. It also sets the color of the embed
     to the dominant color of the color from the image.
+
+    DOES NOT WORK FOR NON IMAGE TYPE FILES.
      """
-    folder_path = r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\
-                                                        Photos For Testing"
+    folder_path = r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing"
     file_name = rand.choice(os.listdir(folder_path))
     random_image_path = folder_path + r"\{}".format(file_name)
     with Image.open(random_image_path) as rand_image:
