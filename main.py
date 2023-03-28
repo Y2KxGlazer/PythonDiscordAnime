@@ -4,6 +4,7 @@ from discord.ext import commands
 
 import asyncio
 
+import Embed
 
 intents=discord.Intents.default()
 intents.message_content = True
@@ -25,13 +26,14 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    msg_channel = message.channel
     if message.author.name == "George Orwell" and message.author.discriminator == "3046":
-        msg_channel = message.channel
+
         if msg_channel.id != 1055616703880503328:
             await msg_channel.send("Nope")
 
         else:
-            pass
+            await Embed.send_rand_local_message(msg_channel)
             # Lower the resolution of image so color theif can work faster
 
 
