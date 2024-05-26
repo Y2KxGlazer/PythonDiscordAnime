@@ -22,7 +22,7 @@ async def send_rand_local_message(channel):
 
     DOES NOT WORK FOR NON IMAGE TYPE FILES.
      """
-    folder_path = r"C:\Users\bmini\Desktop\Pythonic Fluff\PythonDiscordAnime\Photos For Testing"
+    folder_path = r""                                     # Input a path to folder
     file_name = rand.choice(os.listdir(folder_path))
     random_image_path = folder_path + r"\{}".format(file_name)
     with Image.open(random_image_path) as rand_image:
